@@ -88,16 +88,55 @@ def depthFirstSearch(problem: SearchProblem):
     """
     "*** YOUR CODE HERE ***"
     "TESTING"
+    frontier= util.Stack()
+    explored = []
+    frontier.push((problem.getStartState(),[])) 
+    while not frontier.isEmpty():
+       s, a= frontier.pop()#s=state, a=action
+       if not s in explored:
+           explored.append(s)
+           if problem.isGoalState(s):
+               return a
+           for state,action,cost in problem.getSuccessors(s):
+               frontier.push((state, a+[action]))
+               print(state,action)
+    return []
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+    frontier= util.Queue()
+    explored = []
+    frontier.push((problem.getStartState(),[])) 
+    while not frontier.isEmpty():
+        s, a= frontier.pop()#s=state, a=action
+        if not s in explored:
+            explored.append(s)
+            if problem.isGoalState(s):
+                return a
+            for state,action,cost in problem.getSuccessors(s):
+                frontier.push((state, a+[action]))
+                print(state,action)
+    return []
     util.raiseNotDefined()
 
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+    frontier= util.PriorityQueue()
+    explored = []
+    
+    frontier.push((problem.getStartState(),[],0),0)
+    while not frontier.isEmpty():
+        s, a, c = frontier.pop()
+        if(not s in explored):
+            explored.add(s)
+            if problem.isGoalState(s):
+                return a
+            for state, action, cost in problem.getSuccessors(s):
+                frontier.push((state, a+[action], c+cost), c+cost)
+    return []
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
